@@ -24,15 +24,6 @@ An **AI-Powered Spring Documentation Assistant** built with Spring Boot and Spri
   </tr>
 </table>
 
-> 💡 **To add these assets to your repo**, create an `assets/` folder and drop in the files renamed as:
-> ```
-> assets/
-> ├── demo.webm
-> ├── screenshot-home.png
-> └── screenshot-response.png
-> ```
-> Then commit and push — GitHub renders both `<video>` tags and `<img>` tags natively in READMEs.
-
 ---
 
 ## ✨ Features
