@@ -4,6 +4,37 @@ An **AI-Powered Spring Documentation Assistant** built with Spring Boot and Spri
 
 ---
 
+## 🎬 Demo
+
+### Live Streaming Response
+<video src="assets/demo.webm" controls width="100%"></video>
+
+> **Note:** If the video doesn't play inline, download it from [`assets/demo.webm`](assets/demo.webm).
+
+### Screenshots
+
+<table>
+  <tr>
+    <td align="center"><b>Welcome Screen</b></td>
+    <td align="center"><b>Streaming Answer</b></td>
+  </tr>
+  <tr>
+    <td><img src="assets/screenshot-home.png" alt="SpringDocs AI home screen with suggested questions" width="100%"/></td>
+    <td><img src="assets/screenshot-response.png" alt="SpringDocs AI streaming a detailed Spring Boot answer" width="100%"/></td>
+  </tr>
+</table>
+
+> 💡 **To add these assets to your repo**, create an `assets/` folder and drop in the files renamed as:
+> ```
+> assets/
+> ├── demo.webm
+> ├── screenshot-home.png
+> └── screenshot-response.png
+> ```
+> Then commit and push — GitHub renders both `<video>` tags and `<img>` tags natively in READMEs.
+
+---
+
 ## ✨ Features
 
 - 🔍 **RAG Pipeline** — Ingests the Spring Boot reference PDF, chunks it, embeds it, and stores vectors in PostgreSQL via pgvector
@@ -11,7 +42,7 @@ An **AI-Powered Spring Documentation Assistant** built with Spring Boot and Spri
 - 🧠 **Local LLM** — Runs entirely on-device with [Ollama](https://ollama.com/) (no OpenAI key required)
 - 📄 **PDF Knowledge Base** — Spring Boot reference documentation is automatically loaded into the vector store on first startup
 - 🔗 **Similarity Search** — Top-K cosine similarity search retrieves the most relevant document chunks per query
-- 💬 **Custom Prompt Template** — Uses a StringTemplate prompt to keep answers grounded in retrieved documents
+- 💬 **Custom Prompt Template** — Structured StringTemplate prompt with explicit identity, Markdown formatting instructions, hallucination guardrails, and a standard fallback for out-of-scope questions
 - 🔒 **Env-based Secrets** — Credentials are configured via environment variables, not hardcoded
 
 ---
@@ -222,9 +253,20 @@ The composed prompt is sent to the Ollama `ChatClient`, and the response is stre
 
 ### 4. Prompt Template (`spring_assistant_prompt.st`)
 ```
-You are a helpful and friendly assistant who answers Spring Boot questions.
-Use the DOCUMENTS section to provide accurate answers. If unsure, say so.
-Do not reveal anything about the provided documents.
+You are SpringDocs AI, a helpful and knowledgeable assistant specializing in Spring Boot.
+
+Your goal is to answer user questions accurately using the information provided in the DOCUMENTS section.
+
+Follow these guidelines:
+
+Use the information from the DOCUMENTS section as the primary source for your answers.
+If the answer is available in the provided documents, respond clearly, accurately, and concisely.
+When appropriate, include brief explanations or examples to improve understanding.
+If the user's question cannot be answered from the provided documents, simply respond with:
+"I don't know the answer to that."
+Do not mention the documents, retrieved context, vector database, embeddings, or that the information was or wasn't found in the provided context.
+Do not fabricate, infer, or guess information beyond what is supported by the provided documents.
+Format responses using Markdown when it improves readability (headings, bullet points, code blocks, tables).
 
 DOCUMENTS
 {documents}
@@ -233,20 +275,6 @@ INPUT
 {input}
 ```
 
----
+> **What changed from v1:** The assistant now has an explicit identity (`SpringDocs AI`), stricter hallucination guardrails (`do not fabricate, infer, or guess`), a standard fallback phrase for unknown answers, and an instruction to format responses in Markdown — making answers cleaner and more readable for code-heavy Spring Boot topics.
 
-## 🤝 Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m 'Add my feature'`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is open source. See the [LICENSE](LICENSE) file for details.
