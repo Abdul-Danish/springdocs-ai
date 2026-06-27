@@ -1,4 +1,4 @@
-# 🤖 SpringRAG Assistant
+# 🤖 Spring Assistant ChatBot (Streaming RAG)
 
 An **AI-Powered Spring Documentation Assistant** built with Spring Boot and Spring AI that answers Spring Boot–related questions by streaming responses in real time. It uses **Ollama** for local LLM inference, **pgvector** (PostgreSQL) as the vector store, and the official **Spring Boot Reference Documentation** as its knowledge base.
 
