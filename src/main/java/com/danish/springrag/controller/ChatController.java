@@ -52,11 +52,11 @@ public class ChatController {
 
 	private List<String> findSimilarDocuments(String message) {
 		List<Document> similarDocuments = vectorStore
-				.similaritySearch(SearchRequest.builder().query(message).topK(2).build());
+				.similaritySearch(SearchRequest.builder().query(message).topK(1).similarityThreshold(0.5).build());
 		log.info("similar documents found: {}", similarDocuments.size());
 		return similarDocuments.stream().map(doc -> doc.getFormattedContent()).toList();
 	}
-	
+
 	/**
 		curl -N --get \
 	  --data-urlencode "message=provide me a brief example of spring batch configuration" \
